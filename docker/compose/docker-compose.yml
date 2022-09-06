@@ -1,0 +1,38 @@
+version: '3'
+services:
+  vprodb:
+    image: tribuntu/devopsclass-vprodb:V1
+    ports:
+      - "3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Str0ngP4sswD
+      MYSQL_USER: vp_admin
+      MYSQL_PASSWORD: S3cr3tP4ss
+      MYSQL_DATABASE: accounts
+  vprocache01:
+    image: tribuntu/devopsclass-vprocache:V1
+    ports:
+      - "11211"
+  vpromq01:
+    image: tribuntu/devopsclass-vpromq:V1
+    ports:
+      - "5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: vp_rmquser
+      RABBITMQ_DEFAULT_PASS: vp_rmqpass
+  vproapp:
+    image: tribuntu/devopsclass-vproapp:V1
+    ports:
+     - "8081:8080"
+    volumes:
+      - webapp_data:/usr/local/tomcat/webapps
+  vproweb:
+    image: tribuntu/devopsclass-vproweb:V3
+    ports:
+      - "80:80"
+
+volumes:
+  webapp_data:
+  db_data:

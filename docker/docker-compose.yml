@@ -1,36 +1,39 @@
 version: '3'
 services:
   vprodb:
-    image: vprofile/vprofiledb:V1
+    image: devopsclass/vprodb:V1
     ports:
       - "3306:3306"
     volumes:
       - vprodbdata:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=vprodbpass
+      - MYSQL_ROOT_PASSWORD=Str0ngP4sswD
+      - MYSQL_USER=vp_admin
+      - MYSQL_PASSWORD=S3cr3tP4ss
+      - MYSQL_DATABASE=accounts
 
   vprocache01:
-    image: memcached
+    image: tribuntu/devopsclass-vprocache:V1
     ports:
       - "11211:11211"
 
   vpromq01:
-    image: rabbitmq
+    image: tribuntu/devopsclass-vpromq:V1
     ports:
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER=test
-      - RABBITMQ_DEFAULT_PASS=test
+      - RABBITMQ_DEFAULT_USER=vp_rmquser
+      - RABBITMQ_DEFAULT_PASS=vp_rmqpass
 
   vproapp:
-    image: vprofile/vprofileapp:V1
+    image: devopsclass/vproapp:V1
     ports:
-      - "8098:8080"
+      - "8081:8080"
     volumes:
       - vproappdata:/usr/local/tomcat/webapps
 
   vproweb:
-    image: vprofile/vprofileweb:V1
+    image: devopsclass/vproweb:V3
     ports:
       - "80:80"
 volumes:

@@ -1,6 +1,10 @@
 FROM mysql:5.7.25
-
-ENV MYSQL_ROOT_PASSWORD="vprodbpass"
+LABEL "Project"="vprofileapp"
+LABEL "Author"="Alexander Kozyr"
+ENV MYSQL_ROOT_PASSWORD="Str0ngP4sswD"
 ENV MYSQL_DATABASE="accounts"
+ENV MYSQL_USER="vp_admin"
+ENV MYSQL_PASSWORD="S3cr3tP4ss"
+COPY db_backup.sql /docker-entrypoint-initdb.d
 
-ADD docker/db/db_backup.sql docker-entrypoint-initdb.d/db_backup.sql
+CMD ["mysqld"]
